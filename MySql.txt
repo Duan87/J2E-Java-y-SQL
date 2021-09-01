@@ -1,0 +1,104 @@
+CREATE SCHEMA `je2` ;
+CREATE TABLE `je2`.`productos` (
+  `Producto` INT NOT NULL,
+  `Nombre` VARCHAR(100) NULL,
+  `Precio` DECIMAL(10,2) NULL,
+  PRIMARY KEY (`Producto`));
+  ALTER TABLE `je2`.`productos` 
+CHANGE COLUMN `Producto` `Producto` INT NOT NULL AUTO_INCREMENT ;
+CREATE TABLE `je2`.`cajeros` (
+  `Cajero` INT NOT NULL,
+  `NomApels` VARCHAR(255) NULL,
+  PRIMARY KEY (`Cajero`));
+  ALTER TABLE `je2`.`cajeros` 
+CHANGE COLUMN `Cajero` `Cajero` INT NOT NULL AUTO_INCREMENT ;
+CREATE TABLE `je2`.`maquinas_registradoras` (
+  `Maquina` INT NOT NULL,
+  `Piso` INT NULL,
+  PRIMARY KEY (`Maquina`));
+  ALTER TABLE `je2`.`maquinas_registradoras` 
+CHANGE COLUMN `Maquina` `Maquina` INT NOT NULL AUTO_INCREMENT ;
+CREATE TABLE `je2`.`venta` (
+  `Cajero` INT NOT NULL,
+  `Maquina` INT NOT NULL,
+  `Producto` INT NOT NULL);
+  
+INSERT INTO `je2`.`cajeros` (`NomApels`) VALUES ('Jose Perez');
+INSERT INTO `je2`.`cajeros` (`NomApels`) VALUES ('Duan Rodriguez');
+INSERT INTO `je2`.`cajeros` (`NomApels`) VALUES ('Fernanda Ramos');
+INSERT INTO `je2`.`cajeros` (`NomApels`) VALUES ('Miguel Ramirez');
+INSERT INTO `je2`.`cajeros` (`NomApels`) VALUES ('Juan Martinez');
+INSERT INTO `je2`.`maquinas_registradoras` (`Piso`) VALUES ('1');
+INSERT INTO `je2`.`maquinas_registradoras` (`Piso`) VALUES ('2');
+INSERT INTO `je2`.`maquinas_registradoras` (`Piso`) VALUES ('3');
+INSERT INTO `je2`.`maquinas_registradoras` (`Piso`) VALUES ('4');
+INSERT INTO `je2`.`maquinas_registradoras` (`Piso`) VALUES ('5');
+INSERT INTO `je2`.`productos` (`Nombre`, `Precio`) VALUES ('Teclado', '800');
+INSERT INTO `je2`.`productos` (`Nombre`, `Precio`) VALUES ('GTX 1660', '10000');
+INSERT INTO `je2`.`productos` (`Nombre`, `Precio`) VALUES ('GTX 1660 super', '15000');
+INSERT INTO `je2`.`productos` (`Nombre`, `Precio`) VALUES ('Mouse', '1000');
+INSERT INTO `je2`.`productos` (`Nombre`, `Precio`) VALUES ('Monitor', '3000');
+INSERT INTO `je2`.`productos` (`Nombre`, `Precio`) VALUES ('Mouse Pad', '500');
+INSERT INTO `je2`.`productos` (`Nombre`, `Precio`) VALUES ('Microfono', '1100');
+INSERT INTO `je2`.`productos` (`Nombre`, `Precio`) VALUES ('Camara', '500');
+INSERT INTO `je2`.`productos` (`Nombre`, `Precio`) VALUES ('Audifonos', '1700');
+INSERT INTO `je2`.`productos` (`Nombre`, `Precio`) VALUES ('Filtro pop', '500');
+INSERT INTO `je2`.`productos` (`Nombre`, `Precio`) VALUES ('Luz', '500');
+INSERT INTO `je2`.`productos` (`Nombre`, `Precio`) VALUES ('Ram', '1800');
+INSERT INTO `je2`.`productos` (`Nombre`, `Precio`) VALUES ('SSD', '700');
+INSERT INTO `je2`.`productos` (`Nombre`, `Precio`) VALUES ('HDD', '2200');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('1', '1','2');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('1', '1','2');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('1', '1','1');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('1', '2','3');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('1', '1','5');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('2', '4','14');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('2', '2','13');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('2', '3','12');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('2', '5','11');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('3', '5','13');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('3', '4','11');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('3', '3','10');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('3', '3','8');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('4', '1','6');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('4', '1','7');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('4', '2','8');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('4', '1','6');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('5', '4','1');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('5', '3','1');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('5', '5','6');
+INSERT INTO `je2`.`venta` (`Cajero`, `Maquina`,`Producto`) VALUES ('5', '5','6');
+
+ Mostrar el número de ventas de cada producto, ordenado de más a menos ventas.
+ 
+SELECT productos.Nombre, count(venta.Producto) as cantidad from venta
+inner join productos
+on productos.producto= venta.producto
+group by productos.Nombre
+order by  cantidad desc
+
+Obtener un informe completo de ventas, indicando el nombre del cajero que realizo la venta, nombre y precios 
+de los productos vendidos, y el piso en el que se encuentra la máquina registradora donde se realizó la venta.
+SELECT Cajeros.NomApels as Cajero,maquinas_registradoras.piso as Piso,Productos.nombre as Articulo,Productos.precio as Precio from venta
+inner join Productos on Productos.Producto= Venta.Producto
+inner join Cajeros on Cajeros.Cajero= Venta.Cajero
+inner join maquinas_registradoras on maquinas_registradoras.Maquina= Venta.Maquina
+
+ Obtener las ventas totales realizadas en cada piso.
+ SELECT maquinas_registradoras.piso, count(venta.Producto) as cantidad from venta
+inner join maquinas_registradoras
+on maquinas_registradoras.maquina= venta.Maquina
+group by maquinas_registradoras.piso
+
+ Obtener el código y nombre de cada cajero junto con el importe total de sus ventas.
+ 
+ SELECT Cajeros.Cajero as Codigo,Cajeros.NomApels as Cajero,SUM(Productos.precio) as Precio from venta
+inner join Productos on Productos.Producto= Venta.Producto
+inner join Cajeros on Cajeros.Cajero= Venta.Cajero
+group by Cajero
+
+ Obtener el código y nombre de aquellos cajeros que hayan realizado ventas en pisos cuyas ventas totales 
+sean inferiores a los 5000 pesos.
+Select cajero, NomApels from Cajeros
+where cajero IN (select cajero from venta where cajero in (select piso from Venta ven,productos pro ,maquinas_registradoras maq
+where ven.Producto=pro.Producto and ven.maquina = maq.maquina group by Piso having sum(Precio)<5000)) 
